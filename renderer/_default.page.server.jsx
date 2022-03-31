@@ -2,6 +2,7 @@ import ReactDOMServer from "react-dom/server";
 import React from "react";
 import { PageShell } from "./PageShell";
 import { escapeInject, dangerouslySkipEscape } from "vite-plugin-ssr";
+import MDXComponentsProvider from "./context/MDXComponents";
 import logoUrl from "./logo.svg";
 
 export { render };
@@ -12,9 +13,11 @@ async function render(pageContext) {
   const { Page, pageProps } = pageContext;
   const pageHtml = ReactDOMServer.renderToString(
     <PageShell pageContext={pageContext}>
-      <Page {...pageProps} />
-    </PageShell>,
-  )
+      <MDXComponentsProvider>
+        <Page {...pageProps} />
+      </MDXComponentsProvider>
+    </PageShell>
+  );
 
   // See https://vite-plugin-ssr.com/head
   const { documentProps } = pageContext;

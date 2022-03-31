@@ -2,6 +2,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import { getPage } from "vite-plugin-ssr/client";
 import { PageShell } from "./PageShell";
+import MDXComponentsProvider from "./context/MDXComponents";
 
 hydrate();
 
@@ -12,7 +13,9 @@ async function hydrate() {
   const { Page, pageProps } = pageContext;
   ReactDOM.hydrate(
     <PageShell pageContext={pageContext}>
-      <Page {...pageProps} />
+      <MDXComponentsProvider>
+        <Page {...pageProps} />
+      </MDXComponentsProvider>
     </PageShell>,
     document.getElementById("page-view")
   );
